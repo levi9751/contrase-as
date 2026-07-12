@@ -1,9 +1,26 @@
-import random
+import discord
+from discord.ext import commands
 
-contraseña = "+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-usuario = input("ingrese su nombre de usuario:")
-largo = int(input("ingrese la longitud de la contraseña:"))
-contra = ""
-for i in range(largo):
-    contra += random.choice(contraseña)
-print("Hola", usuario, "tu contraseña es:", contra)
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='$', intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'We have logged in as {bot.user}')
+
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Hola, soy un bot {bot.user}!')
+
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
+
+@bot.command()
+async def users(ctx):
+    await ctx.send(f"usuarios:  {bot.user}")
+  
+
+bot.run("token")
